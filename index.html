@@ -1,95 +1,94 @@
 <html>
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="./raphael-2.1.4.min.js"></script>
-	<script src="./justgage.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./raphael-2.1.4.min.js"></script>
+    <script src="./justgage.js"></script>
 
-	<script>
-	var accessToken = "e9a3feae69840d67234a9ac4018ab9297d84de31";
-	var deviceID = "380035000c47343438323536"
-	var url = "https://api.particle.io/v1/devices/" + deviceID + "/gradosC";
-	var url2 = "https://api.particle.io/v1/devices/" + deviceID + "/humedad";
-	var url3 = "https://api.particle.io/v1/devices/" + deviceID + "/gradosF";
-	
-	function callback(data, status){
-		if (status == "success") {
-			temp = parseFloat(data.result);
-			temp = temp.toFixed(2);
-			g.refresh(temp);
-			setTimeout(getReading, 300);
-		}
-		else {
-			alert("There was a problem");
-		}
-	}
-	function callback2(data2, status2){
-		if (status2 == "success") {
-			temp2 = parseFloat(data2.result);
-			temp2 = temp2.toFixed(2);
-			g2.refresh(temp2);
-			setTimeout(getReading, 300);
-		}
-		else {
-			alert("There was a problem");
-		}
-	}
-	function callback3(data3, status3){
-		if (status3 == "success") {
-			temp3 = parseFloat(data3.result);
-			temp3 = temp3.toFixed(2);
-			g3.refresh(temp3);
-			setTimeout(getReading, 300);
-		}
-		else {
-			alert("There was a problem");
-		}
-	}
-	function getReading(){
-		$.get(url, {access_token: accessToken}, callback);
-	}
-	function getReading2(){
-		$.get(url2, {access_token: accessToken}, callback2);
-	}
-	function getReading3(){
-		$.get(url3, {access_token: accessToken}, callback3);
-	}
+    <script>
+    var accessToken = "e9a3feae69840d67234a9ac4018ab9297d84de31";
+    var deviceID = "380035000c47343438323536";
+    var url = "https://api.particle.io/v1/devices/" + deviceID + "/gradosC";
+    var url2 = "https://api.particle.io/v1/devices/" + deviceID + "/humedad";
+    var url3 = "https://api.particle.io/v1/devices/" + deviceID + "/gradosF";
 
-	$(document).ready(function() {
-	        var g = new JustGage({
-	            id: "gauge",
-	            value: 0,
-	            min: 0,
-	            max: 400,
-	            title: "Temperatura (C)"
-	        });
-	        getReading();
-	
-	        var g2 = new JustGage({
-	            id: "gauge2",
-	            value: 0,
-	            min: 0,
-	            max: 400,
-	            title: "Humedad"
-	        });
-	        getReading2();
-	
-	        var g3 = new JustGage({
-	            id: "gauge3",
-	            value: 0,
-	            min: 0,
-	            max: 400,
-	            title: "Farenheiht"
-	        });
-	        getReading3();
-	});	
-	</script>
-	</head>	
+    var g, g2, g3; // Definir las variables aquí para que estén disponibles en todo el ámbito del script
 
-	<body>
-	<div style="display: flex;">		
-		<div id="gauge" class="200x160px"></div>
-		<div id="gauge2" class="200x160px"></div>
-		<div id="gauge3" class="200x160px"></div>
-	</div>	
+    function callback(data, status){
+        if (status == "success") {
+            var temp = parseFloat(data.result);
+            temp = temp.toFixed(2);
+            g.refresh(temp);
+            setTimeout(getReading, 300);
+        } else {
+            alert("There was a problem");
+        }
+    }
+    function callback2(data2, status2){
+        if (status2 == "success") {
+            var temp2 = parseFloat(data2.result);
+            temp2 = temp2.toFixed(2);
+            g2.refresh(temp2);
+            setTimeout(getReading2, 300);
+        } else {
+            alert("There was a problem");
+        }
+    }
+    function callback3(data3, status3){
+        if (status3 == "success") {
+            var temp3 = parseFloat(data3.result);
+            temp3 = temp3.toFixed(2);
+            g3.refresh(temp3);
+            setTimeout(getReading3, 300);
+        } else {
+            alert("There was a problem");
+        }
+    }
+    function getReading(){
+        $.get(url, {access_token: accessToken}, callback);
+    }
+    function getReading2(){
+        $.get(url2, {access_token: accessToken}, callback2);
+    }
+    function getReading3(){
+        $.get(url3, {access_token: accessToken}, callback3);
+    }
+
+    $(document).ready(function() {
+        g = new JustGage({
+            id: "gauge",
+            value: 0,
+            min: 0,
+            max: 400,
+            title: "Temperatura (C)"
+        });
+        getReading();
+
+        g2 = new JustGage({
+            id: "gauge2",
+            value: 0,
+            min: 0,
+            max: 400,
+            title: "Humedad"
+        });
+        getReading2();
+
+        g3 = new JustGage({
+            id: "gauge3",
+            value: 0,
+            min: 0,
+            max: 400,
+            title: "Farenheiht"
+        });
+        getReading3();
+    });
+    </script>
+</head>
+
+<body>
+<div style="display: flex;">        
+    <div id="gauge" class="200x160px"></div>
+    <div id="gauge2" class="200x160px"></div>
+    <div id="gauge3" class="200x160px"></div>
+</div>
 </body>
 </html>
