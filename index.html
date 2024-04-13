@@ -53,6 +53,35 @@
 	function getReading3(){
 		$.get(url3, {access_token: accessToken}, callback3);
 	}
+
+	$(document).ready(function() {
+	        var g = new JustGage({
+	            id: "gauge",
+	            value: 0,
+	            min: 0,
+	            max: 400,
+	            title: "Temperatura (C)"
+	        });
+	        getReading();
+	
+	        var g2 = new JustGage({
+	            id: "gauge2",
+	            value: 0,
+	            min: 0,
+	            max: 400,
+	            title: "Humedad"
+	        });
+	        getReading2();
+	
+	        var g3 = new JustGage({
+	            id: "gauge3",
+	            value: 0,
+	            min: 0,
+	            max: 400,
+	            title: "Farenheiht"
+	        });
+	        getReading3();
+	});	
 	</script>
 	</head>	
 
@@ -62,33 +91,5 @@
 		<div id="gauge2" class="200x160px"></div>
 		<div id="gauge3" class="200x160px"></div>
 	</div>	
-
-	<script>
-	var g = new JustGage({
-		id: "gauge",
-		value: 0,
-		min: 0,
-		max: 400,
-		title: "Temperatura (C)"
-	});
-	getReading();
-	var g2 = new JustGage({
-		id: "gauge2",
-		value: 0,
-		min: 0,
-		max: 400,
-		title: "Humedad"
-	});
-	getReading2();
-	var g3 = new JustGage({
-		id: "gauge3",
-		value: 0,
-		min: 0,
-		max: 400,
-		title: "Farenheiht"
-	});
-	getReading3();
-	</script>
-
 </body>
 </html>
