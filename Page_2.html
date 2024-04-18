@@ -1,62 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de LED</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control de LED</title>
 </head>
 <body>
-    <p id="ledStatusMsg">El LED está apagado</p>
-    <div id="gifContainer", width = 60%, height = 60%></div>
-    <button id="encenderBtn">Encender LED</button>
-    <button id="apagarBtn">Apagar LED</button>
-    <button type="button" id="Regresar" class="BotonPagina2"><a href="./index.html">
-        Regresar:D</a></button>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        var deviceID = "380035000c47343438323536"; // Reemplaza "tu_deviceID" con el ID de tu dispositivo
-        var accessToken = "9868060f7b798b0ed656c19e50c73bcc67d6a89b"; // Reemplaza "tu_accessToken" con tu token de acceso
-        var ledStatus = "off"; // Estado inicial del LED
 
-        $(document).ready(function(){
-            updateStatusMessage(); // Actualiza el mensaje inicial
-            showGif()
-            $("#encenderBtn").click(function() {
-                toggleLED("on");
-                showGif()
-            });
+<h1>Control de LED</h1>
+<button onclick="turnOnLED()">Encender LED</button>
+<button onclick="turnOffLED()">Apagar LED</button>
 
-            $("#apagarBtn").click(function() {
-                toggleLED("off");
-                showGif()
-            });
-        });
+<p id="ledStatus">Estado del LED: Desconocido</p>
 
-        function toggleLED(status) {
-            var ledUrl = "https://api.particle.io/v1/devices/" + deviceID + "/LED";
-            $.ajax({
-                type: "POST",
-                url: ledUrl,
-                data: { access_token: accessToken, arg: status },
-                success: function(response) {
-                    console.log("LED toggled successfully");
-                    ledStatus = status; // Actualiza el estado del LED
-                    updateStatusMessage(); // Actualiza el mensaje
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error toggling LED");
-                }
-            });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+const deviceID = "TU_ID_DE_DISPOSITIVO"; // Reemplaza con tu ID de dispositivo
+const accessToken = "TU_ACCESS_TOKEN"; // Reemplaza con tu token de acceso
+
+function toggleLED(status) {
+    var ledUrl = "https://api.particle.io/v1/devices/" + deviceID + "/led";
+    $.ajax({
+        type: "POST",
+        url: ledUrl,
+        data: { access_token: accessToken, arg: status },
+        success: function(response) {
+            console.log("Response from Particle:", response);
+            if (response.return_value === 1) {
+                console.log("Turning LED on");
+                $("#ledStatus").text("Estado del LED: Encendido");
+            } else if (response.return_value === 0) {
+                console.log("Turning LED off");
+                $("#ledStatus").text("Estado del LED: Apagado");
+            } else {
+                console.error("Invalid response from Particle:", response.return_value);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error toggling LED");
         }
+    });
+}
 
-        function updateStatusMessage() {
-            var statusMsg = (ledStatus === "on") ? "El LED está encendido" : "El LED está apagado";
-            $("#ledStatusMsg").text(statusMsg);
-        }
+function turnOnLED() {
+    toggleLED("on");
+}
 
-        function showGif() {
-            var gifUrl = (ledStatus === "on") ? "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGM0cjZyczM5M2I1bno4bzFkcHhhd3Nvd2QxeWNuN2tueXlqZG1vcSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/o75ajIFH0QnQC3nCeD/giphy.gif": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRbWeoCZk34HeVGqXgoJ6BG9G8k56-ZFgVhSlBzHr6yQ&s"
-            $("#gifContainer").html('<img src="' + gifUrl + '" alt="Gif">');
-        }
-    </script>
+function turnOffLED() {
+    toggleLED("off");
+}
+</script>
+
 </body>
+</html>
