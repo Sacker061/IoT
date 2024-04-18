@@ -37,16 +37,16 @@
                 data: { access_token: accessToken, arg: status },
                 success: function(response) {
                     console.log("Response from Particle:", response);
-                    if (response.return_value === 1) {
+                    if (response === "1") {
                         console.log("Turning LED on");
                         // Enciende el LED
                         // Aquí puedes agregar código adicional si es necesario
-                    } else if (response.return_value === 0) {
+                    } else if (response === "0") {
                         console.log("Turning LED off");
                         // Apaga el LED
                         // Aquí puedes agregar código adicional si es necesario
                     } else {
-                        console.error("Invalid response from Particle:", response.return_value);
+                        console.error("Invalid response from Particle:", response);
                     }
                     updateStatusMessage(); // Actualiza el mensaje
                 },
@@ -55,6 +55,7 @@
                 }
             });
         }
+
 
         function updateStatusMessage() {
             var statusMsg = (ledStatus === "on") ? "El LED está encendido" : "El LED está apagado";
