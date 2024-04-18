@@ -36,8 +36,18 @@
                 url: ledUrl,
                 data: { access_token: accessToken, arg: status },
                 success: function(response) {
-                    console.log("LED toggled successfully");
-                    ledStatus = status; // Actualiza el estado del LED
+                    console.log("Response from Particle:", response);
+                    if (response.return_value === 1) {
+                        console.log("Turning LED on");
+                        // Enciende el LED
+                        // Aquí puedes agregar código adicional si es necesario
+                    } else if (response.return_value === 0) {
+                        console.log("Turning LED off");
+                        // Apaga el LED
+                        // Aquí puedes agregar código adicional si es necesario
+                    } else {
+                        console.error("Invalid response from Particle:", response.return_value);
+                    }
                     updateStatusMessage(); // Actualiza el mensaje
                 },
                 error: function(xhr, status, error) {
